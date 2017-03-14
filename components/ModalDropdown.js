@@ -13,6 +13,8 @@ import {
   NativeModules,
   StyleSheet,
   Dimensions,
+  Platform,
+  StatusBar,
   View,
   Text,
   ListView,
@@ -36,6 +38,7 @@ export default class ModalDropdown extends Component {
 
   static propTypes = {
     disabled: PropTypes.bool,
+    immersive: PropTypes.bool,
     defaultIndex: PropTypes.number,
     defaultValue: PropTypes.string,
     options: PropTypes.array,
@@ -103,7 +106,11 @@ export default class ModalDropdown extends Component {
   _updatePosition(callback) {
     if (this._button && this._button.measure) {
       this._button.measure((fx, fy, width, height, px, py) => {
-        this._buttonFrame = {x: px, y: py, w: width, h: height};
+        let offset = 0;
+        if (this.props.immersive && Platform.OS == 'android') {
+          offset = StatusBar.currentHeight
+        }
+        this._buttonFrame = {x: px, y: py - offset, w: width, h: height};
         callback && callback();
       });
     }
