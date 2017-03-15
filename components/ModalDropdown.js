@@ -38,6 +38,7 @@ export default class ModalDropdown extends Component {
 
   static propTypes = {
     disabled: PropTypes.bool,
+    autoWidth: PropTypes.bool,
     immersive: PropTypes.bool,
     defaultIndex: PropTypes.number,
     defaultValue: PropTypes.string,
@@ -228,7 +229,9 @@ export default class ModalDropdown extends Component {
     if (this.props.adjustFrame) {
       style = this.props.adjustFrame(style) || style;
     }
-
+    if (this.props.autoWidth) {
+      style.width = this._buttonFrame.w;
+    }
     return style;
   }
 
